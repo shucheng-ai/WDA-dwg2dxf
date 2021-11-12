@@ -1,0 +1,16 @@
+FROM ubuntu:18.04
+USER root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG C.UTF-8
+ADD qt514base_5.14.1-1basyskom1_amd64.deb /
+RUN apt update && apt install -y /qt514base_5.14.1-1basyskom1_amd64.deb && apt install -y software-properties-common xvfb wget curl vim python3-pip
+RUN pip3 install flask==1.1.2
+ENV QTDIR /opt/qt514
+ENV LD_LIBRARY_PATH /opt/qt514/lib/x86_64-linux-gnu:/opt/qt514/lib
+ENV PKG_CONFIG_PATH /opt/qt514/lib/pkgconfig
+ADD ODAFileConverter_QT5_lnxX64_7.2dll.deb /workspace/
+RUN dpkg -i --ignore-depends=libqt5opengl5-dev --ignore-depends=libqt5opengl5 --ignore-depends=qt5-default /workspace/ODAFileConverter_QT5_lnxX64_7.2dll.deb 
+ADD convert_helper.sh /
+ENV LD_LIBRARY_PATH /opt/qt514/lib/x86_64-linux-gnu:/opt/qt514/lib:/usr/bin/ODAFileConverter_21.3.0.0
+WORKDIR /www/dwg2dxf
+

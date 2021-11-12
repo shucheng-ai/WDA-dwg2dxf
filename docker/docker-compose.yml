@@ -1,0 +1,13 @@
+version: '3'
+services:
+  dwg2dxf:
+    image: cyborg/dwg2dxf
+    container_name: cyborg-dwg2dxf
+    command: >
+      /bin/bash -c "
+        python3 /www/dwg2dxf/server.py
+      "
+    ports:
+      - 8001:8001
+    volumes:
+      - ../../:/www/
